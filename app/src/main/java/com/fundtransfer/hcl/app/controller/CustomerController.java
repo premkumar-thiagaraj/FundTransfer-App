@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,8 +54,10 @@ public class CustomerController {
 	@PostMapping("/fundTransfer")
 	public String fundTransfer(@ModelAttribute("transaction") Transaction transaction , @RequestParam String accNoSrc, @RequestParam String accNoDst,
 			@RequestParam Double amount, @RequestParam String Comment) {
-
-		return null;
+		
+		if(null != transferService.saveTransactionDetails(transaction))
+			return HttpStatus.OK.name();
+		return HttpStatus.NOT_MODIFIED.name();
 	}
 	
 	@GetMapping(path = "/a")
