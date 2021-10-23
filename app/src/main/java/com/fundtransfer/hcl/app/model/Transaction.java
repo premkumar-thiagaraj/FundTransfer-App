@@ -80,7 +80,6 @@ public class Transaction {
 		this.dstAccountNo = dstAccountNo;
 	}
 
-	
-	
-	
 }
+	
+

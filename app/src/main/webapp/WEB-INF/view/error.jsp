@@ -11,7 +11,7 @@
 <body>
 	<div class="container">
 		<table class="table table-striped">
-			<caption>Account Details</caption>
+			<caption>Your todos are</caption>
 			<thead>
 				<tr>
 					<th>id</th>
@@ -20,7 +20,7 @@
 				</tr>
 			</thead>
 			<tbody>
-                <c:forEach items="${customer}" var="customer">
+                <c:forEach items="${customer}" var="book">
                     <tr>
                         <td>${customer.id}</td>
                         <td>${customer.name}</td>

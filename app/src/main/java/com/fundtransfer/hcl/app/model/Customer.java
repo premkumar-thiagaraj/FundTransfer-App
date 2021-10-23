@@ -32,6 +32,7 @@ public class Customer  {
 	@Column(name = "ACCOUNT_NO")
 	private Long accountNo;
 
+
 	
 	public Long getCustomerId() {
 		return customerId;
@@ -45,17 +46,17 @@ public class Customer  {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Long getAccountNo() {
-		return accountNo;
-	}
-	public void setAccountNo(Long accountNo) {
-		this.accountNo = accountNo;
-	}
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Long getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(Long accountNo) {
+		this.accountNo = accountNo;
+	}
+
 }
