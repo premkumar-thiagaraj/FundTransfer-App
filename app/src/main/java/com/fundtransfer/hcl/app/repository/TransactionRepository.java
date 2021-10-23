@@ -10,7 +10,7 @@ import com.fundtransfer.hcl.app.model.Transaction;
 
 		Transaction getBySrcAccountNo(Long id);
 
-		Transaction getByDestAccountNo(Long id);
+		Transaction getByDstAccountNo(Long id);
 
 
 

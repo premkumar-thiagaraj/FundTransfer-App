@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fundtransfer.hcl.app.exception.TransferException;
 import com.fundtransfer.hcl.app.model.Account;
@@ -26,6 +28,7 @@ public class TransferServiceImpl implements TransferService{
 	TransactionRepository transactionRepository;
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW,  rollbackFor = TransferException.class)
 	public Transaction saveTransactionDetails(Transaction transaction) throws TransferException {
 		
 		if(null != transaction.getSrcAccountNo() && null!=transaction.getDstAccountNo()) {
@@ -34,13 +37,15 @@ public class TransferServiceImpl implements TransferService{
 			Account destinationAccount = accountRepository.getById(transaction.getDstAccountNo());
 			
 			if(null != sourceAccount && null != destinationAccount) {
+				
+				// check if the balance is sufficient
 				if(sourceAccount.getBalance() > 0) {
 					
 					if(sourceAccount.getBalance() - transaction.getTransactionAmount() >= 0) {
-						
+						// alter balances of both account with the transaction amount
 						sourceAccount.setBalance(sourceAccount.getBalance() - transaction.getTransactionAmount());
-						destinationAccount.setBalance(sourceAccount.getBalance() + transaction.getTransactionAmount());
-						
+						destinationAccount.setBalance(destinationAccount.getBalance() + transaction.getTransactionAmount());
+						//save transaction
 						transaction = transactionRepository.saveAndFlush(transaction);
 						accountRepository.saveAll(List.of(sourceAccount,destinationAccount));
 					} else {
@@ -65,7 +70,7 @@ public class TransferServiceImpl implements TransferService{
 	@Override
 	public List<Transaction> displayTransactionDetails(Long id) {
 		Transaction debit= transactionRepository.getBySrcAccountNo(id);
-		Transaction credit= transactionRepository.getByDestAccountNo(id);
+		Transaction credit= transactionRepository.getByDstAccountNo(id);
 		return List.of(debit,credit);
 	}
 

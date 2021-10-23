@@ -2,13 +2,19 @@ package com.fundtransfer.hcl.app.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="ACCOUNT")
@@ -27,7 +33,11 @@ public class Account {
 	@Column(name="BALANCE")
 	private Double balance;
 
+	@JsonManagedReference
 	@ManyToOne
+	@JoinTable(name = "CUSTOMER_ACCOUNT_MAPPING", joinColumns = {
+			@JoinColumn(name = "MAPPING_ACCOUNT_ID", referencedColumnName = "ACCOUNT_NO") }, inverseJoinColumns = {
+					@JoinColumn(name = "MAPPING_CUSTOMER_ID", referencedColumnName = "CUSTOMER_ID") })
     private Customer customer;
 	
 	public Customer getCustomer() {

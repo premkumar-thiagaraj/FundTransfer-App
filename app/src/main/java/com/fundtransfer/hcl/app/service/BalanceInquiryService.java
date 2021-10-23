@@ -3,9 +3,7 @@
  */
 package com.fundtransfer.hcl.app.service;
 
-import java.util.Optional;
-
-import com.fundtransfer.hcl.app.model.Customer;
+import com.fundtransfer.hcl.app.model.CustomerDto;
 
 /**
  * @author Admin
@@ -13,6 +11,6 @@ import com.fundtransfer.hcl.app.model.Customer;
  */
 public interface BalanceInquiryService {
 
-	public Optional<Customer> displayCustomerBalanceDetails(Long id);
+	public CustomerDto displayCustomerBalanceDetails(Long id);
 	
 }

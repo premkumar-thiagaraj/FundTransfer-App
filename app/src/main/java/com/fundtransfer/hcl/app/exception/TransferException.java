@@ -3,6 +3,11 @@ package com.fundtransfer.hcl.app.exception;
 public class TransferException extends RuntimeException {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1122148627651337125L;
+
 	int errCode;
 	
 	String message;

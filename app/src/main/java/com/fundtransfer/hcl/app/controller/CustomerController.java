@@ -1,25 +1,30 @@
 package com.fundtransfer.hcl.app.controller;
 
+import java.util.Date;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.fundtransfer.hcl.app.model.Customer;
+import com.fundtransfer.hcl.app.exception.TransferException;
+import com.fundtransfer.hcl.app.model.Account;
+import com.fundtransfer.hcl.app.model.CustomerDto;
 import com.fundtransfer.hcl.app.model.Transaction;
+import com.fundtransfer.hcl.app.repository.AccountRepository;
 import com.fundtransfer.hcl.app.service.BalanceInquiryService;
 import com.fundtransfer.hcl.app.service.TransferService;
 
-@Controller
+@RestController
 public class CustomerController {
 	
 	
@@ -29,35 +34,50 @@ public class CustomerController {
 	@Autowired
 	TransferService transferService;
 	
+	@Autowired
+	AccountRepository accountRepository;
+	
 	protected Logger logger = Logger.getLogger(CustomerController.class.getName());
 
-	@RequestMapping("/loginValidation")
-	public String loginValidation(@RequestParam Integer customerId, @RequestParam String password) {
-
-		return null;
-	}
-
-	@GetMapping(path = "/displayBalance/{customerId}")
-	public String displayCustomerDetails(@PathVariable Long customerId, Model model) {
-		
-		Optional<Customer> customerOptional = balanceInquiryService.displayCustomerBalanceDetails(customerId);
-		if(customerOptional.isPresent()) {
-			model.addAttribute("customer", customerOptional.get());
-			//return new ResponseEntity<Customer>(balanceInquiryService.displayCustomerDetails(customerId).get(), HttpStatus.OK);
-		} else {
-			model.addAttribute("customer", customerOptional.orElse(new Customer()));
+	/** Api that displays the customer account and respective balances for the chosen customer
+	 * @param customerId
+	 * @return
+	 */
+	@GetMapping(path = "/displayCustomerDetails/{customerId}")
+	public ResponseEntity<CustomerDto> displayCustomerDetails(@PathVariable Long customerId) {
+		CustomerDto customerDto = null;
+		try{
+		  customerDto = balanceInquiryService.displayCustomerBalanceDetails(customerId);
+		} catch(Exception ex) {
+			logger.log(Level.SEVERE, ex.getMessage()); 
 		}
-		return "index";
+		return new ResponseEntity<CustomerDto>(customerDto, HttpStatus.OK);
 		
 	}
 
-	@PostMapping("/fundTransfer")
-	public String fundTransfer(@ModelAttribute("transaction") Transaction transaction , @RequestParam String accNoSrc, @RequestParam String accNoDst,
-			@RequestParam Double amount, @RequestParam String Comment) {
-		
-		if(null != transferService.saveTransactionDetails(transaction))
-			return HttpStatus.OK.name();
-		return HttpStatus.NOT_MODIFIED.name();
+	/**
+	 * Api that performs the fund transfer and updates the balances accordingly 
+	 * @param transaction
+	 * @return
+	 */
+	@PostMapping("/fundtransfer")
+	public ResponseEntity<CustomerDto> fundTransfer(@RequestBody Transaction transaction) {
+		  
+		try{
+			if(null != transferService.saveTransactionDetails(transaction)) {
+				Optional<Account> accountOptional = accountRepository.findById(transaction.getSrcAccountNo());
+				if(accountOptional.isPresent()) {
+					Long customerId = accountOptional.get().getCustomer().getId();
+					CustomerDto customerDto = balanceInquiryService.displayCustomerBalanceDetails(customerId);
+					return new ResponseEntity<CustomerDto>(customerDto, HttpStatus.CREATED);
+				}
+			} else {
+				throw new TransferException("Transfer failed");
+			}
+		} catch(Exception ex) {
+			logger.log(Level.SEVERE, ex.getMessage()); 
+		}
+		return new ResponseEntity<CustomerDto>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping(path = "/a")

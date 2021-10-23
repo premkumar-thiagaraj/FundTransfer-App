@@ -8,8 +8,6 @@ public class CustomerDto {
 	
 	private String name;
 	
-	private String password;
-	
 	private List<AccountBalDto> acountBalances;
 
 	public Long getCustomerId() {
@@ -26,14 +24,6 @@ public class CustomerDto {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public List<AccountBalDto> getAcountBalances() {

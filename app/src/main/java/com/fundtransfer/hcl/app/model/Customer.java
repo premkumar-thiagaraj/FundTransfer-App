@@ -3,12 +3,20 @@
  */
 package com.fundtransfer.hcl.app.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * @author Admin
@@ -19,26 +27,22 @@ import javax.persistence.Table;
 public class Customer  {
 	
 	@Id
-	@Column(name="CUSTOMER_ID",unique = true, nullable = false)
+	@Column(name="CUSTOMER_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long customerId;
+	private Long id;
 	
 	@Column(name="NAME")
 	private String name;
 	
-	@Column(name="PASSWORD")
-	private String password;
-	
-	@Column(name = "ACCOUNT_NO")
-	private Long accountNo;
+	@JsonManagedReference
+	@OneToMany(mappedBy="customer")
+	private Set<Account> accounts;
 
-
-	
-	public Long getCustomerId() {
-		return customerId;
+	public Long getId() {
+		return id;
 	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -46,17 +50,10 @@ public class Customer  {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPassword() {
-		return password;
+	public Set<Account> getAccounts() {
+		return accounts;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
-	public Long getAccountNo() {
-		return accountNo;
-	}
-	public void setAccountNo(Long accountNo) {
-		this.accountNo = accountNo;
-	}
-
 }

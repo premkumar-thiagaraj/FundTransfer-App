@@ -11,32 +11,10 @@
 <body>
 	<div class="container">
 		<table class="table table-striped">
-			<caption>Account Details</caption>
-			<thead>
-				<tr>
-					<th>id</th>
-					<th>Name</th>
-					<th>Account Number</th>
-				</tr>
-			</thead>
-			<tbody>
-                <c:forEach items="${customer}" var="customer">
-                    <tr>
-                        <td>${customer.id}</td>
-                        <td>${customer.name}</td>
-                        <td>${customer.accountNumber}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-			<tbody>
-					<tr>
-						<td>Prem</td>
-						<td>10/12/2017</td>
-						<td>1000</td>
-						<!-- <td><a class="btn btn-warning" href="/edit-todo">Edit Todo</a></td>
-						<td><a class="btn btn-warning" href="/delete-todo">Delete Todo</a></td> -->
-					</tr>
-			</tbody>
+			
+			<h1>Page redirected by application .
+			page you are searching for does not exist...
+			<h1>
 		</table>
 		<div>
 			<a class="btn btn-default" href="/submit">Submit</a>
