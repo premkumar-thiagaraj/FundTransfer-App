@@ -15,4 +15,7 @@ public class Account {
 	@Column(name="ACCOUNT_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "BALANCE")
+	private Long bal;
 }

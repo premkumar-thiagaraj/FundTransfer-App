@@ -4,19 +4,20 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fundtransfer.hcl.app.model.Customer;
+import com.fundtransfer.hcl.app.model.Transaction;
 import com.fundtransfer.hcl.app.service.BalanceInquiryService;
 
-@RestController
+@Controller
 public class CustomerController {
 	
 	
@@ -51,14 +52,14 @@ public class CustomerController {
 		
 	}
 
-	@RequestMapping("/fundTransfer")
-	public String fundTransfer(@RequestParam String accNoSrc, @RequestParam String accNoDst,
+	@PostMapping("/fundTransfer")
+	public String fundTransfer(@ModelAttribute("transaction") Transaction transaction , @RequestParam String accNoSrc, @RequestParam String accNoDst,
 			@RequestParam Double amount, @RequestParam String Comment) {
 
 		return null;
 	}
 	
-	@GetMapping(path = "/")
+	@GetMapping(path = "/a")
 	public String welcome() {
 		return "index";
 	}

@@ -39,7 +39,7 @@ public class Customer  {
 					@JoinColumn(name = "MAPPING_USER_ID", referencedColumnName = "CUSTOMER_ID") }, inverseJoinColumns = {
 					@JoinColumn(name = "MAPPING_ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID") })
 	@JsonManagedReference
-	private Set<Account> Accounts;
+	private Set<Account> accounts;
 
 	public Long getId() {
 		return id;
@@ -54,9 +54,9 @@ public class Customer  {
 		this.name = name;
 	}
 	public Set<Account> getAccounts() {
-		return Accounts;
+		return accounts;
 	}
 	public void setAccounts(Set<Account> accounts) {
-		Accounts = accounts;
+		this.accounts = accounts;
 	}
 }
