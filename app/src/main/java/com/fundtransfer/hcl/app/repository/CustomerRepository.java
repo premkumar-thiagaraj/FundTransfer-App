@@ -8,4 +8,5 @@ import com.fundtransfer.hcl.app.model.Customer;
 	@Repository
 	public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+
 	}
