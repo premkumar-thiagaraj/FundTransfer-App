@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fundtransfer.hcl.app.model.Customer;
 import com.fundtransfer.hcl.app.model.Transaction;
 import com.fundtransfer.hcl.app.service.BalanceInquiryService;
+import com.fundtransfer.hcl.app.service.TransferService;
 
 @Controller
 public class CustomerController {
@@ -23,7 +24,10 @@ public class CustomerController {
 	
 	@Autowired
 	BalanceInquiryService balanceInquiryService;
-	 
+
+	@Autowired
+	TransferService transferService;
+	
 	protected Logger logger = Logger.getLogger(CustomerController.class.getName());
 
 	@RequestMapping("/loginValidation")
@@ -32,13 +36,7 @@ public class CustomerController {
 		return null;
 	}
 
-	@GetMapping(path = "/detailAccount")
-	public String detailAccount() {
-		 System.out.println("Hellos");
-		return "Hello";
-	}
-
-	@RequestMapping(path = "/displayBalance/{customerId}")
+	@GetMapping(path = "/displayBalance/{customerId}")
 	public String displayCustomerDetails(@PathVariable Long customerId, Model model) {
 		
 		Optional<Customer> customerOptional = balanceInquiryService.displayCustomerDetails(customerId);
