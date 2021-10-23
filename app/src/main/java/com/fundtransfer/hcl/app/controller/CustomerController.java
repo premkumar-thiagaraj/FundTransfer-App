@@ -4,11 +4,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
-=======
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
->>>>>>> d08ef9b4cbfeca55e39d9269be4531121136543c
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
