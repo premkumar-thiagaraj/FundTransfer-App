@@ -40,7 +40,7 @@ public class CustomerController {
 	@GetMapping(path = "/displayBalance/{customerId}")
 	public String displayCustomerDetails(@PathVariable Long customerId, Model model) {
 		
-		Optional<Customer> customerOptional = balanceInquiryService.displayCustomerDetails(customerId);
+		Optional<Customer> customerOptional = balanceInquiryService.displayCustomerBalanceDetails(customerId);
 		if(customerOptional.isPresent()) {
 			model.addAttribute("customer", customerOptional.get());
 			//return new ResponseEntity<Customer>(balanceInquiryService.displayCustomerDetails(customerId).get(), HttpStatus.OK);

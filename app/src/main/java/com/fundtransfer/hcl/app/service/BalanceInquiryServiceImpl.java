@@ -22,7 +22,7 @@ public class BalanceInquiryServiceImpl implements BalanceInquiryService {
 	CustomerRepository customerRepository;
 	
 	@Override
-	public Optional<Customer> displayCustomerDetails(Long id) {	
+	public Optional<Customer> displayCustomerBalanceDetails(Long id) {	
 		
 		return customerRepository.findById(id);
 	}

@@ -13,6 +13,6 @@ import com.fundtransfer.hcl.app.model.Customer;
  */
 public interface BalanceInquiryService {
 
-	public Optional<Customer> displayCustomerDetails(Long id);
+	public Optional<Customer> displayCustomerBalanceDetails(Long id);
 	
 }
